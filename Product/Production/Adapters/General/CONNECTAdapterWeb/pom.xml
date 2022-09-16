@@ -26,11 +26,7 @@
             <artifactId>CONNECTCoreLib</artifactId>
         </dependency>
        
-        <dependency>
-            <groupId>org.connectopensource</groupId>
-            <artifactId>PolicyEngineCore</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+        
         
         <dependency>
             <groupId>org.connectopensource</groupId>
