@@ -32,6 +32,14 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
         </dependency>		
+      <!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+<dependency>
+    <groupId>javax</groupId>
+    <artifactId>javaee-api</artifactId>
+    <version>6.0</version>
+    <scope>provided</scope>
+</dependency>
+
 		
         <!-- Persistence -->
         <dependency>
