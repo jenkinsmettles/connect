@@ -22,6 +22,12 @@
             <artifactId>CORE_X12DocumentSubmissionCore</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+      <dependency>
+    <groupId>javax</groupId>
+    <artifactId>javaee-api</artifactId>
+    <version>6.0</version>
+    <scope>provided</scope>
+</dependency>
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>CONNECTCommonTypesLib</artifactId>
