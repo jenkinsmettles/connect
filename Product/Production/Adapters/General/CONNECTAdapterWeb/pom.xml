@@ -13,6 +13,14 @@
 
     <dependencies>
         <!-- CONNECT Modules / Web Services -->
+      <!-- https://mvnrepository.com/artifact/javax/javaee-api -->
+<dependency>
+    <groupId>javax</groupId>
+    <artifactId>javaee-api</artifactId>
+    <version>8.0</version>
+    <scope>provided</scope>
+</dependency>
+
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>CONNECTCoreLib</artifactId>
