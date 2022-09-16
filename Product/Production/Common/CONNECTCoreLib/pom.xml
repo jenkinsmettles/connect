@@ -288,9 +288,9 @@
             <artifactId>jsonassert</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.sourceforge.saxon</groupId>
-            <artifactId>saxonhe</artifactId>
-            <scope>test</scope>
+          <groupId>net.sourceforge.saxon</groupId>
+          <artifactId>saxonhe</artifactId>
+          <version>9.2.1.5</version>
         </dependency>
         <dependency>
             <groupId>org.connectopensource</groupId>
