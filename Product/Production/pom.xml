@@ -18,7 +18,7 @@
     <modules>
         <module>Common</module>
         <module>Services</module>
-        <module>Adapters</module>
+        <!--<module>Adapters</module>-->
         <module>Gateway</module>
         <module>Deploy</module>
     </modules>
