@@ -290,19 +290,7 @@ public class DeferredQueueManagerHelper {
             "Start: DeferredQueueManagerHelper.forceProcessOnRequest method - processing deferred request by record.");
         boolean result = false;
 
-        // Call processing based on the service name
-        if (queueRecord.getServiceName().equals(NhincConstants.PATIENT_DISCOVERY_SERVICE_NAME)) {
-            PatientDiscoveryDeferredReqQueueProcessResponseType pdResponse = processDeferredPatientDiscovery(
-                queueRecord);
-
-            if (pdResponse != null && pdResponse.getSuccessOrFail() != null
-                && pdResponse.getSuccessOrFail().isSuccess()) {
-                result = true;
-            }
-
-        } else {
-            LOG.warn("Service processing not implemented, Please check the Service Name.");
-        }
+        
 
         LOG.debug(
             "End: DeferredQueueManagerHelper.forceProcessOnRequest method - processing deferred request by record.");
@@ -330,26 +318,6 @@ public class DeferredQueueManagerHelper {
 
     }
 
-    /**
-     * Process the deferred patient discovery request
-     *
-     * @param queueRecord
-     * @return Deferred Patient Discovery Response
-     */
-    private static PatientDiscoveryDeferredReqQueueProcessResponseType processDeferredPatientDiscovery(
-        AsyncMsgRecord queueRecord) {
-        LOG.debug(
-            "Start: DeferredQueueManagerHelper.processDeferredPatientDiscovery method - processing deferred message.");
-
-        PatientDiscoveryDeferredReqQueueClient reqClient = new PatientDiscoveryDeferredReqQueueClient();
-        PatientDiscoveryDeferredReqQueueProcessResponseType response = reqClient
-            .processPatientDiscoveryDeferredReqQueue(queueRecord.getMessageId());
-
-        LOG.debug(
-            "End: DeferredQueueManagerHelper.processDeferredPatientDiscovery method - processing deferred message.");
-
-        return response;
-    }
 
     /**
      * Call deferred queue dao to query for matching records
