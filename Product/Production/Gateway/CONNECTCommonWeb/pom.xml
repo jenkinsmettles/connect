@@ -76,6 +76,16 @@
     </dependencies>
 
     <build>
+      <plugins>
+      <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <packagingExcludes>WEB-INF/classes/xml-resources/**</packagingExcludes>
+                </configuration>
+              <version>3.3.1</version>
+            </plugin>
+        </plugins>
         <finalName>CONNECTCommonWeb</finalName>
+        
     </build>
 </project>
