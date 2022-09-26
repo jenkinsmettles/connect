@@ -255,7 +255,7 @@ public class OpenSAML2ComponentBuilder implements SAMLCompontentBuilder {
      */
     private static SubjectConfirmation createHoKConfirmation(final SubjectConfirmationData subjectConfirmationData) {
         return SAML2ComponentBuilder.createSubjectConfirmation(SubjectConfirmation.METHOD_HOLDER_OF_KEY,
-            subjectConfirmationData);
+            subjectConfirmationData, null);
     }
 
     /**
@@ -273,11 +273,11 @@ public class OpenSAML2ComponentBuilder implements SAMLCompontentBuilder {
         LOG.debug("Prepare to construct method {} for subject confirmation", method);
         if (SubjectConfirmation.METHOD_SENDER_VOUCHES.equalsIgnoreCase(method)) {
             return SAML2ComponentBuilder.createSubjectConfirmation(SubjectConfirmation.METHOD_SENDER_VOUCHES,
-                subjectConfirmData);
+                subjectConfirmData, null);
         }
         if (SubjectConfirmation.METHOD_BEARER.equalsIgnoreCase(method)) {
             return SAML2ComponentBuilder.createSubjectConfirmation(SubjectConfirmation.METHOD_BEARER,
-                subjectConfirmData);
+                subjectConfirmData, null);
         }
         return null;
     }
