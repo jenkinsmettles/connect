@@ -69,7 +69,7 @@ public class CONNECTTimestamp extends Timestamp {
      */
     public boolean isExpired(Date invocationDate) {
         if (getExpires() != null) {
-            return getExpires().before(invocationDate == null ? new Date() : invocationDate);
+            return getExpires().isBefore(invocationDate == null ? new Date().toInstant() : invocationDate.toInstant());
         }
         return false;
     }
@@ -115,7 +115,7 @@ public class CONNECTTimestamp extends Timestamp {
      */
     private boolean verifyCreatedAfter(Date invocationDate) {
         // Check to see if the created time is in the future
-        if (getCreated() != null && getCreated().after(invocationDate)) {
+        if (getCreated() != null && getCreated().isAfter(invocationDate.toInstant())) {
             LOG.info("Validation of Timestamp: The message was created in the future!");
             return false;
         } else {
@@ -128,7 +128,7 @@ public class CONNECTTimestamp extends Timestamp {
      */
     private boolean verifyCreatedBefore(Date invocationDate) {
         // Validate the time it took the message to travel
-        if (getCreated() != null && getCreated().before(invocationDate)) {
+        if (getCreated() != null && getCreated().isBefore(invocationDate.toInstant())) {
             LOG.info("Validation of Timestamp: The message was created too long ago");
             return false;
         } else {
