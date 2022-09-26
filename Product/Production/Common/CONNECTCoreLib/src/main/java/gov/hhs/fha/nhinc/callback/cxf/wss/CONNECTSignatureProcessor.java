@@ -70,7 +70,7 @@ public class CONNECTSignatureProcessor extends SignatureProcessor {
 
 
     @Override
-    public List<WSSecurityEngineResult> handleToken(Element signatureElem, RequestData data, WSDocInfo wsDocInfo)
+    public List<WSSecurityEngineResult> handleToken(Element signatureElem, RequestData data)
         throws WSSecurityException {
         inlineSignatureAttachments((SoapMessage) data.getMsgContext(), signatureElem);
 
@@ -79,9 +79,9 @@ public class CONNECTSignatureProcessor extends SignatureProcessor {
         List<String> digestAlgorithms = configurableList.get(SamlConstants.DIGEST_KEY);
 
         if (isCustomAlgorithmSet(signatureAlgorithms, digestAlgorithms)) {
-            return handleCustomAlgorithm(signatureElem, data, wsDocInfo, signatureAlgorithms, digestAlgorithms);
+            return handleCustomAlgorithm(signatureElem, data, signatureAlgorithms, digestAlgorithms);
         } else {
-            return super.handleToken(signatureElem, data, wsDocInfo);
+            return super.handleToken(signatureElem, data);
         }
 
     }
@@ -98,7 +98,7 @@ public class CONNECTSignatureProcessor extends SignatureProcessor {
     }
 
     private List<WSSecurityEngineResult> handleCustomAlgorithm(Element signatureElem, RequestData data,
-        WSDocInfo wsDocInfo, List<String> signatureAlgorithms, List<String> digestAlgorithms) throws WSSecurityException {
+         List<String> signatureAlgorithms, List<String> digestAlgorithms) throws WSSecurityException {
         List<WSSecurityEngineResult> results;
         AlgorithmSuite oldAlgorithm = data.getAlgorithmSuite();
 
@@ -111,7 +111,7 @@ public class CONNECTSignatureProcessor extends SignatureProcessor {
         }
 
         data.setAlgorithmSuite(oldAlgorithm);
-        results = super.handleToken(signatureElem, data, wsDocInfo);
+        results = super.handleToken(signatureElem, data);
         // Revert back default Policy in CXF
         for (WSSecurityEngineResult result : results) {
             Integer action = (Integer) result.get(WSSecurityEngineResult.TAG_ACTION);
