@@ -96,7 +96,7 @@ public class SOAPHeaderHandlerTest {
         SOAPFactory soapFactory = SOAPFactory.newInstance();
         SOAPElement element = soapFactory.createElement(MESSAGE_ID, "blah", WSA_NS);
         Iterator<SOAPElement> iterator = mock(Iterator.class);
-        when(soapHeader.getChildElements(any(QName.class))).thenReturn(iterator);
+        //when(soapHeader.getChildElements(any(QName.class))).thenReturn(iterator);
         when(iterator.hasNext()).thenReturn(true);
         when(iterator.next()).thenReturn(element);
 
