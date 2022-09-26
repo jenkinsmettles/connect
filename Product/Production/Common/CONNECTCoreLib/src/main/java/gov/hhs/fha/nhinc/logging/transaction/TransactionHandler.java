@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPElement;
+import javax.xml.soap.Node;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeader;
@@ -111,7 +112,7 @@ public class TransactionHandler implements SOAPHandler<SOAPMessageContext> {
                 if (NullChecker.isNullish(transactionId)) {
 
                     LOG.debug("TransactionHandler.handleMessage() Looking up on RelatesTo");
-                    Iterator<SOAPElement> iter = getAllChildren(soapHeader, currentWSA, RELATESTO_ID);
+                    Iterator<Node> iter = getAllChildren(soapHeader, currentWSA, RELATESTO_ID);
                     transactionId = iterateThroughRelatesTo(iter, messageId);
                 }
 
@@ -197,7 +198,7 @@ public class TransactionHandler implements SOAPHandler<SOAPMessageContext> {
         return transactionId;
     }
 
-    private String iterateThroughRelatesTo(Iterator<SOAPElement> iter, String messageId) {
+    private String iterateThroughRelatesTo(Iterator<Node> iter, String messageId) {
         String relatesToId;
         String transactionId = null;
 
@@ -205,7 +206,7 @@ public class TransactionHandler implements SOAPHandler<SOAPMessageContext> {
             int count = 0;
             StringBuffer relatesBuffer = new StringBuffer();
             while (iter.hasNext()) {
-                SOAPElement relatesToIdElement = iter.next();
+                SOAPElement relatesToIdElement = (SOAPElement) iter.next();
                 if (relatesToIdElement != null) {
                     relatesToId = relatesToIdElement.getTextContent();
                     LOG.debug("TransactionHandler.handleMessage() RelatesTo: " + relatesToId);
@@ -245,9 +246,9 @@ public class TransactionHandler implements SOAPHandler<SOAPMessageContext> {
         return result;
     }
 
-    private Iterator<SOAPElement> getAllChildren(SOAPHeader header, String ns, String name) {
+    private Iterator<Node> getAllChildren(SOAPHeader header, String ns, String name) {
         QName qname = new QName(ns, name);
-        Iterator<SOAPElement> iter = null;
+        Iterator<Node> iter = null;
         if (header != null) {
             iter = header.getChildElements(qname);
         }
