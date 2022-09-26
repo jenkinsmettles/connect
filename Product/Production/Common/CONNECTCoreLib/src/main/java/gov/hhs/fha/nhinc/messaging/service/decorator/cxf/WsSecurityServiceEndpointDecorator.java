@@ -93,7 +93,7 @@ public class WsSecurityServiceEndpointDecorator<T> extends ServiceEndpointDecora
 
     private void configureWSSecurityOnClient(Client client, Map<String, Object> outProps) {
         WSS4JOutInterceptor outInterceptor = new WSS4JOutInterceptor(outProps);
-        outInterceptor.setAllowMTOM(true);
+        //outInterceptor.setAllowMTOM(true);
 
         for (Interceptor<? extends Message> interceptor : client.getOutInterceptors()) {
             if (interceptor instanceof WSS4JOutInterceptor) {
