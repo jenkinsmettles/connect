@@ -13,8 +13,8 @@
 
   <modules>
     <module>Production</module>
-    <module>DBScripts</module>
-    <module>SoapUI_Test</module>
+    <!-- <module>DBScripts</module>
+    <module>SoapUI_Test</module> -->
   </modules>
 
   <dependencyManagement>
