@@ -1,123 +1,73 @@
-CONNECT
-=======
+# Server Architecture Design Document for Healthcare Data Management System (MVP)
 
-CONNECT is an open source software solution that supports health information exchange - both locally and at the national level. CONNECT uses Nationwide Health Information Network standards and governance to make sure that health information exchanges are compatible with other exchanges being set up throughout the country.
+## 1. Introduction
 
-This software solution was initially developed by federal agencies to support their health-related missions, but it is now available to all organizations and can be used to help set up health information exchanges and share data using nationally-recognized interoperability standards.
+### Purpose
+This document presents the design of a minimal viable product (MVP) for a healthcare data management system. It focuses on a simplified two-tier server architecture, suitable for initial deployment and testing.
 
-License
--------
+### Scope
+This MVP includes a HAPI-FHIR RESTful server for business logic and a HAPI FHIR JPA Server for data persistence, deployed within an AWS environment.
 
-CONNECT is released under the [Revised BSD License](https://connectopensource.atlassian.net/wiki/x/mQCD).
+## 2. System Architecture Overview
 
-Uses
-----
-CONNECT can be used to:
+### Architectural Diagram
+The architecture involves:
+- **Tier 1**: HAPI-FHIR RESTful Server
+- **Tier 2**: HAPI FHIR JPA Persistence Server
 
-* Set up a health information exchange within an organization
-* Tie a health information exchange into a regional network of health information exchanges using Nationwide Health Information Network standards
-* Send and receive Direct messages; see: [Setting up CONNECT as a Direct HISP](/Product/Production/Services/DirectCore/README.md)
+### Tier 1 - RESTful Server (HAPI-FHIR)
+- **Functionality**: Handles business logic for FHIR resources.
+- **Supported Resources**: Manages various FHIR resources.
+- **Technology Stack**: HAPI-FHIR library with Java Spring Framework.
 
-By advancing the adoption of interoperable health IT systems and health information exchanges, the country will better be able to achieve the goal of making sure all providers have access to patient health data. Health data will be able to follow a patient across the street or across the country.
+### Tier 2 - Persistence Server (HAPI FHIR JPA Server)
+- **Database Integration**: Linked to an external RDS database.
+- **Data Management**: Manages CRUD operations on FHIR resources.
+- **Technology Stack**: HAPI FHIR JPA server.
 
-Solution
---------
-Three primary elements make up the CONNECT solution:
+## 3. AWS Environment
 
-* The Core Services Gateway provides the ability to locate patients at other organizations, request and receive documents associated with the patient, and record these transactions for subsequent auditing by patients and others. Other features include mechanisms for authenticating network participants, formulating and evaluating authorizations for the release of medical information, and honoring consumer preferences for sharing their information. The Nationwide Health Information Network Interface specifications are implemented within this component.
+### AWS Components
+- **API Gateway**: (Planned for future expansion) To manage and route incoming API requests.
+- **Load Balancers**: (Planned for future expansion) To distribute traffic across server instances.
+- **RDS Database**: An external AWS RDS database for data storage.
 
-* The Enterprise Service Components provide default implementations of many critical enterprise components required to support electronic health information exchange, including a Master Patient Index (MPI), XDS.b Document Registry and Repository, Authorization Policy Engine, Consumer Preferences Manager, HIPAA-compliant Audit Log and others. Implementers of CONNECT are free to adopt the components or use their own existing software for these purposes.
+## 4. Data Flow
 
-* The System Administration Module provides a graphical user interface (GUI) to simplify the configuration, support, and administration of the CONNECT solution. Key features include: graphical system overview, connection management, property and adapter configuration management, audit log viewer, Direct configuration, and the Cross-Gateway Query Client for testing basic message exchanges against other systems.
+### Interaction Between Tiers
+Data flows from the RESTful server to the persistence server, with data processing and storage operations handled efficiently within the AWS infrastructure.
 
-History
--------
-* 5.3 released July 2019
-* 5.2 released November 2018
-* 5.1.2 released August 2018
-* 5.0 released June 2017
-* 4.7 released September 2016
-* 4.6 released March 2016
-* 4.5 released July 2015
-* 4.4 released December 2014
-* 4.3 released March 2014
-* 4.2 released August 2013
-* 4.1 released April 2013
-* 4.0 released February 2013
-* 3.3 released March 2012
+## 5. Deployment Strategy
 
-For more information about CONNECT's history, see [HISTORY.md](./HISTORY.md)
+### Environment Setup
+- **AWS Deployment**: The servers are deployed within the AWS cloud environment for scalability and reliability.
+- **Containerization**: Docker is used for containerizing the server components.
 
-Building from Source
----------------
-To build CONNECT from source run:
+### Scalability Considerations
+- **Initial Setup**: Designed for minimal scalability in the MVP phase.
+- **Future Expansion**: Provisions for integrating load balancers and auto-scaling as part of the full-scale deployment.
 
-        $ cd <CONNECT_CLONE_DIR>
-        $ mvn clean install
+## 6. Maintenance and Monitoring
 
-####Building an ear
-All services profiles except DB (execute database scripts), X12 and Direct are active by default, if you want to exclude a service, in this case Patient Discovery, you can turn off the profile by adding a "!" to the name of the service profile you'd like to exclude (needs to be escaped with "\" char on *NIX) platforms:
+### Routine Maintenance
+- Regular updates and maintenance are planned for both server components.
 
-        $ mvn clean install -P \!PD
+### System Monitoring
+- Basic monitoring setup using AWS CloudWatch for tracking server performance.
 
-You can also specify explicitly what services are included in the ear by passing in the individual profiles.  For example, if you only want to include PD:
+## 7. Conclusion
 
-        $ cd Product/Production/Deploy/
-        $ mvn clean install -P PD
-		
-Please note that if at least one profile is explicitly defined in the build command, ALL desired profiles must be specified. Available profiles include:
+This MVP design lays the groundwork for a scalable and robust healthcare data management system, focused on FHIR standards compliance. The architecture is set up within an AWS environment, with considerations for future enhancements and security measures.
 
-* PD - Patient Discovery
-* DQ - Document Query
-* DR - Document Retrieve
-* DS - Document Submission
-* AD - Admin Distribution
-* X12 - CAQH Core X12
-* DDS - Document Data Submission
-* admingui - AdminGUI and AdminGUI webservice
-* DB - Database scripts (dropall.sql, nhincdb.sql, populateTestData.sql)
-* was - WebSphere CONNECT ear
-* weblogic - WebLogic CONNECT ear
-* Direct - Direct messaging services
+## Appendices
 
-If the DB profile is selected, local database parameters must also be defined in the CONNECT/pom.xml file
+### Appendix A: Server Configuration Details
+- Details of server configurations including HAPI-FHIR and HAPI FHIR JPA versions.
 
-		<\!-- DB Options -->
-        <db.host>xxxxx</db.host>
-        <db.password>xxxxx</db.password>
-        <db.port>xxxxx</db.port>
-        <db.user>xxxxx</db.user>
-        <mysql.root.password>xxxxx</mysql.root.password>
-        <mysqldriver.version>xxxxx</mysqldriver.version>
+### Appendix B: AWS Services and Configurations
+- List of utilized AWS services and their basic configurations.
 
-For more information on CONNECT supported application servers build and deployment visit: [Installation Instructions](https://connectopensource.atlassian.net/wiki/x/uyYCBw) page.
-       
-
-Testing
--------
-After the CONNECT Gateway has been installed, the Validation Suite can be run to verify that the installation is working correctly. 
-
-To run Validation Suite via Maven script against a standalone installation of the application server:
-
-        $ cd <CONNECT_CLONE_DIR>/Product/SoapUI_Test/ValidationSuite
-        $ mvn verify -Dstandalone -Dproperties.dir=<application server configuration dir>
-
-To execute Validation Suite via SoapUI, run the Validation Suite project file ConnectValidation-soapui-project.xml via SoapUI's command line runner testrunner.sh (or testrunner.bat in Windows).
-
-You can find more details at: [CONNECT Validation Suite](https://connectopensource.atlassian.net/wiki/x/I4Ch)
-
-
-Documentation
--------------
-
-###Generate & View
-You can generate the project's site information by performing the following: 
-
-        $ mvn -P\!embedded-testing site:site site:stage -DstagingSiteURL=/tmp/fullsite
-
-Then open your browser and view [file:///tmp/fullsite/index.html]
-
-Contributing
-------------
-
-Please checkout [code contribution](https://connectopensource.atlassian.net/wiki/x/7gCD) for guidelines about how to contribute.
+## Revision History
+| Version | Date         | Description of Changes          |
+|---------|--------------|---------------------------------|
+| 1.0     | [Today's Date] | Initial MVP design document.  |
